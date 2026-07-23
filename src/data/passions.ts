@@ -12,7 +12,7 @@ export const passions: Passion[] = [
   {
     tag: 'P·01',
     title: 'The perfect cup',
-    note: 'Dialing in espresso until the shot pulls just right — then doing it all again tomorrow morning.',
+    note: 'Dialing in espresso until the shot pulls just right, then doing it all again the next morning.',
     icon: 'cup',
   },
   {
@@ -24,7 +24,7 @@ export const passions: Passion[] = [
   {
     tag: 'P·03',
     title: 'The ’04 WRX STi',
-    note: 'A 2004 Subaru WRX STi and an ever-growing list of mods. The garage is where I do my best thinking.',
+    note: 'A 2004 Subaru WRX STi and an ever-growing list of mods. The garage is where I do some of my best work.',
     icon: 'car',
   },
   {
