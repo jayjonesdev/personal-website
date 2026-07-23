@@ -1,0 +1,55 @@
+---
+---
+
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="folio">01</p>
+        <p class="eyebrow">About</p>
+      </div>
+      <h2 class="section-title reveal">
+        Equal parts engineer and designer, with a curator’s habit of collecting
+        things worth keeping.
+      </h2>
+    </div>
+
+    <div class="about-body">
+      <p class="reveal">
+        I design and build complete products — the SwiftUI screen you tap, the
+        TypeScript service behind it, and the seams where the two meet. Most of
+        what’s below I took from idea to shipped, usually on my own.
+      </p>
+      <p class="reveal">
+        I care about the parts people feel but rarely name: the timing of a
+        transition, the wording of an empty state, the weight of a headline. The
+        collecting instinct spills past software, too — records, recipes, parts,
+        ideas — and I have an enthusiast’s habit of going a little too deep on
+        all of them.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-body {
+    max-width: var(--measure);
+    margin-left: auto;
+  }
+  @media (min-width: 48rem) {
+    .about-body {
+      margin-right: 0;
+      /* align under the content column, past the index gutter */
+      margin-left: calc(14rem + 2rem);
+    }
+  }
+  .about-body p {
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .about-body p + p {
+    margin-top: 1.4rem;
+  }
+</style>

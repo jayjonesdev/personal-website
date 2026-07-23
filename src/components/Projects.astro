@@ -1,0 +1,59 @@
+---
+import { projects, commonThread } from '../data/projects';
+import ProjectCard from './ProjectCard.astro';
+---
+
+<section class="section" id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="folio">03</p>
+        <p class="eyebrow">Work</p>
+      </div>
+      <div>
+        <h2 class="section-title reveal">Things I’ve built after hours</h2>
+        <p class="section-lede reveal">
+          A small studio’s worth of products, mostly designed and shipped solo —
+          across iOS, Android, the web, and the services behind them.
+        </p>
+      </div>
+    </div>
+
+    <div class="project-grid">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+
+    <aside class="thread reveal">
+      <span class="tag">The common thread</span>
+      <p>{commonThread}</p>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .project-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+  }
+  @media (min-width: 44rem) {
+    .project-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .thread {
+    display: grid;
+    gap: 0.7rem;
+    max-width: 46rem;
+    margin-top: clamp(2rem, 4vw, 3rem);
+    padding-left: 1.2rem;
+    border-left: 2px solid var(--crema);
+  }
+  .thread p {
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+</style>

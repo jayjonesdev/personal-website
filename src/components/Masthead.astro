@@ -1,0 +1,285 @@
+---
+import { Image } from 'astro:assets';
+import portrait from '../assets/jerrell.jpg';
+import { currently } from '../data/passions';
+
+const contents = [
+  { n: '01', href: '#about', label: 'About' },
+  { n: '02', href: '#passions', label: 'Passions' },
+  { n: '03', href: '#work', label: 'Work' },
+  { n: '04', href: '#contact', label: 'Contact' },
+];
+---
+
+<header class="masthead wrap" id="top">
+  <div class="mast-grid">
+    <div class="mast-lead">
+      <p class="eyebrow reveal">Personal catalog — Nº 01</p>
+      <h1 class="mast-name reveal">Jerrell<br />Jones</h1>
+      <p class="roles reveal">
+        Curator <span aria-hidden="true">·</span> Engineer
+        <span aria-hidden="true">·</span> Designer
+        <span aria-hidden="true">·</span> Enthusiast
+      </p>
+      <p class="mast-intro reveal">
+        I design and build software end to end — and bring the same fuss over
+        the details to a shot of espresso, a record on the platter, and the next
+        mod for the STi.
+      </p>
+
+      <nav class="contents reveal" aria-label="Contents">
+        <p class="contents-label">Contents</p>
+        <ol>
+          {
+            contents.map((c) => (
+              <li>
+                <a href={c.href}>
+                  <span class="c-num">{c.n}</span>
+                  <span class="c-label">{c.label}</span>
+                  <span class="c-rule" aria-hidden="true" />
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+    </div>
+
+    <figure class="plate reveal">
+      <div class="plate-frame">
+        <Image
+          src={portrait}
+          alt="Portrait of Jerrell Jones"
+          widths={[320, 480, 640]}
+          sizes="(max-width: 48rem) 62vw, 22rem"
+          loading="eager"
+        />
+      </div>
+      <figcaption>
+        <span class="tag">Fig. 1</span>
+        <span>The curator</span>
+      </figcaption>
+    </figure>
+  </div>
+
+  <!-- Signature: a four-slot snapshot tying every world together. -->
+  <section class="currently reveal" aria-label="Currently">
+    <h2 class="visually-hidden">Currently</h2>
+    <ul>
+      {
+        currently.map((c) => (
+          <li>
+            <span class="cur-label">{c.label}</span>
+            <span class="cur-value">{c.value}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</header>
+
+<style>
+  .masthead {
+    padding-top: clamp(2.5rem, 6vw, 5rem);
+    padding-bottom: clamp(3rem, 6vw, 5.5rem);
+  }
+  .mast-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: start;
+  }
+  @media (min-width: 52rem) {
+    .mast-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(16rem, 22rem);
+    }
+  }
+
+  .mast-name {
+    font-size: var(--step-5);
+    font-weight: 400;
+    margin-top: 1.1rem;
+    letter-spacing: -0.03em;
+  }
+  .roles {
+    margin-top: 1.1rem;
+    font-family: var(--font-mono);
+    font-size: var(--step-0);
+    letter-spacing: 0.04em;
+    color: var(--crema-deep);
+  }
+  .roles span {
+    color: var(--faded);
+    padding-inline: 0.25rem;
+  }
+  .mast-intro {
+    max-width: 34rem;
+    margin-top: 1.8rem;
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  /* Contents / table-of-contents index */
+  .contents {
+    margin-top: clamp(2.2rem, 4vw, 3rem);
+    max-width: 26rem;
+  }
+  .contents-label {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--faded);
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 0.2rem;
+  }
+  .contents ol {
+    list-style: none;
+    padding: 0;
+  }
+  .contents li {
+    border-bottom: 1px solid var(--line);
+  }
+  .contents a {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding-block: 0.7rem;
+    transition: color 0.2s ease;
+  }
+  .contents a:hover {
+    color: var(--signal);
+  }
+  .c-num {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--crema-deep);
+  }
+  .c-label {
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+  }
+  .c-rule {
+    flex: 1;
+    height: 0;
+    border-bottom: 1px dotted var(--line-strong);
+    transform: translateY(-0.2em);
+  }
+  .contents a:hover .c-rule {
+    border-bottom-color: var(--signal);
+  }
+
+  /* Portrait plate */
+  .plate {
+    justify-self: start;
+    margin: 0;
+  }
+  @media (min-width: 52rem) {
+    .plate {
+      justify-self: end;
+      position: sticky;
+      top: 5rem;
+    }
+  }
+  .plate-frame {
+    padding: 0.5rem;
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 0 var(--line) inset;
+    max-width: 20rem;
+  }
+  .plate-frame img {
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+    filter: saturate(0.92) contrast(1.02);
+  }
+  .plate figcaption {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-top: 0.7rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--faded);
+  }
+
+  /* Currently strip — the signature */
+  .currently {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    border-top: 1px solid var(--line);
+  }
+  .currently ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 46rem) {
+    .currently ul {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .currently li {
+    padding: 1.4rem 1.4rem 1.4rem 0;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .currently li::before {
+    content: '';
+    position: absolute;
+    top: 1.55rem;
+    left: -0.75rem;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--signal);
+  }
+  @media (min-width: 46rem) {
+    .currently li {
+      border-bottom: none;
+      padding-left: 1.1rem;
+    }
+    .currently li::before {
+      left: 0;
+    }
+    .currently li + li {
+      border-left: 1px solid var(--line);
+    }
+  }
+  .cur-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--faded);
+  }
+  .cur-value {
+    display: block;
+    margin-top: 0.4rem;
+    font-family: var(--font-serif);
+    font-size: var(--step-0);
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  /* Staggered entrance for the lead column */
+  .mast-lead .reveal {
+    transition-delay: calc(var(--i, 0) * 80ms);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var lead = document.querySelectorAll('.mast-lead .reveal');
+    lead.forEach(function (el, i) {
+      el.style.setProperty('--i', i);
+    });
+  })();
+</script>

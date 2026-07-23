@@ -1,0 +1,49 @@
+---
+const year = 2026;
+---
+
+<footer class="foot">
+  <div class="wrap foot-inner">
+    <p class="colophon">
+      Set in <span class="sc">Newsreader</span> &amp;
+      <span class="sc">Space&nbsp;Mono</span>. Built with Astro, by hand.
+    </p>
+    <p class="copy">© {year} Jerrell Jones</p>
+    <a class="totop" href="#top">
+      Back to top <span aria-hidden="true">↑</span>
+    </a>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    border-top: 1px solid var(--line);
+    padding-block: 2.5rem;
+  }
+  .foot-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--faded);
+  }
+  .sc {
+    color: var(--ink-soft);
+  }
+  .copy {
+    letter-spacing: 0.03em;
+  }
+  .totop {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    letter-spacing: 0.04em;
+    transition: color 0.2s ease;
+  }
+  .totop:hover {
+    color: var(--signal);
+  }
+</style>

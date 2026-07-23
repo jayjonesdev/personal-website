@@ -1,0 +1,121 @@
+---
+import { passions } from '../data/passions';
+import PassionIcon from './PassionIcon.astro';
+---
+
+<section class="section" id="passions">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="folio">02</p>
+        <p class="eyebrow">Passions</p>
+      </div>
+      <div>
+        <h2 class="section-title reveal">Off the clock</h2>
+        <p class="section-lede reveal">
+          Five collections I keep tending — most of them, not coincidentally,
+          the reason a few of the projects below exist.
+        </p>
+      </div>
+    </div>
+
+    <ul class="passion-list">
+      {
+        passions.map((p) => (
+          <li class="passion reveal">
+            <span class="passion-icon">
+              <PassionIcon name={p.icon} class="p-glyph" />
+            </span>
+            <div class="passion-body">
+              <div class="passion-top">
+                <span class="tag">{p.tag}</span>
+                <h3 class="passion-title">{p.title}</h3>
+              </div>
+              <p class="passion-note">{p.note}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .passion-list {
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+  .passion {
+    display: grid;
+    grid-template-columns: 2.6rem 1fr;
+    gap: 1.1rem;
+    align-items: start;
+    padding: 1.5rem 0.5rem 1.5rem 0.25rem;
+    border-bottom: 1px solid var(--line);
+    transition: background-color 0.25s ease, padding-left 0.25s ease;
+  }
+  @media (min-width: 48rem) {
+    .passion {
+      grid-template-columns: 4rem minmax(11rem, 15rem) 1fr;
+      gap: 1.75rem;
+      align-items: baseline;
+    }
+  }
+  .passion:hover {
+    background-color: color-mix(in srgb, var(--surface) 55%, transparent);
+    padding-left: 0.75rem;
+  }
+  .passion-icon {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    color: var(--crema-deep);
+    transition: border-color 0.25s ease, color 0.25s ease;
+  }
+  @media (min-width: 48rem) {
+    .passion-icon {
+      width: 3rem;
+      height: 3rem;
+      align-self: start;
+    }
+  }
+  .passion:hover .passion-icon {
+    border-color: var(--crema);
+    color: var(--crema);
+  }
+  .p-glyph {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  .passion-top {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  @media (min-width: 48rem) {
+    .passion-body {
+      display: contents;
+    }
+  }
+  .passion-title {
+    font-size: var(--step-2);
+    font-weight: 400;
+    text-wrap: balance;
+  }
+  .passion-note {
+    max-width: 34rem;
+    margin-top: 0.5rem;
+    color: var(--ink-soft);
+    font-size: var(--step-0);
+    line-height: 1.55;
+  }
+  @media (min-width: 48rem) {
+    .passion-note {
+      margin-top: 0;
+    }
+  }
+</style>

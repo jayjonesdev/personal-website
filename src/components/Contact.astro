@@ -1,0 +1,108 @@
+---
+const channels = [
+  {
+    label: 'Email',
+    value: 'jayjonesdevelopment@gmail.com',
+    href: 'mailto:jayjonesdevelopment@gmail.com',
+    external: false,
+  },
+  {
+    label: 'GitHub',
+    value: 'github.com/jayjonesdev',
+    href: 'https://github.com/jayjonesdev',
+    external: true,
+  },
+  {
+    label: 'LinkedIn',
+    value: 'linkedin.com/in/jerrelljones',
+    href: 'https://www.linkedin.com/in/jerrelljones/',
+    external: true,
+  },
+];
+---
+
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="folio">04</p>
+        <p class="eyebrow">Contact</p>
+      </div>
+      <div>
+        <h2 class="section-title reveal">Say hello</h2>
+        <p class="section-lede reveal">
+          Building something, hiring, or just want to argue about brew ratios?
+          I’d love to hear from you.
+        </p>
+      </div>
+    </div>
+
+    <ul class="channels">
+      {
+        channels.map((c) => (
+          <li class="reveal">
+            <a
+              class="channel"
+              href={c.href}
+              {...c.external ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
+            >
+              <span class="channel-label">{c.label}</span>
+              <span class="channel-value">{c.value}</span>
+              <span class="channel-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .channels {
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+  .channels li {
+    border-bottom: 1px solid var(--line);
+  }
+  .channel {
+    display: grid;
+    grid-template-columns: minmax(6rem, 8rem) 1fr auto;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 1.3rem 0.25rem;
+    transition: padding-left 0.25s ease, color 0.25s ease,
+      background-color 0.25s ease;
+  }
+  .channel:hover,
+  .channel:focus-visible {
+    padding-left: 0.9rem;
+    color: var(--signal);
+    background-color: color-mix(in srgb, var(--surface) 45%, transparent);
+    outline: none;
+  }
+  .channel-label {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--faded);
+  }
+  .channel:hover .channel-label {
+    color: var(--crema-deep);
+  }
+  .channel-value {
+    font-family: var(--font-serif);
+    font-size: var(--step-2);
+    font-weight: 400;
+    word-break: break-word;
+  }
+  .channel-arrow {
+    font-family: var(--font-mono);
+    transition: transform 0.25s ease;
+  }
+  .channel:hover .channel-arrow {
+    transform: translateX(4px);
+  }
+</style>

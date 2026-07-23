@@ -1,0 +1,68 @@
+---
+import type { PassionIcon } from '../data/passions';
+
+interface Props {
+  name: PassionIcon;
+  class?: string;
+}
+const { name, class: className } = Astro.props;
+---
+
+<svg
+  class={className}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.5"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  {
+    name === 'cup' && (
+      <Fragment>
+        <path d="M4.5 9.5h11v4.5a4 4 0 0 1-4 4H8.5a4 4 0 0 1-4-4V9.5Z" />
+        <path d="M15.5 10.5H18a2.2 2.2 0 0 1 0 4.4h-2.5" />
+        <path d="M7.5 3.6c-.6.8-.6 1.7 0 2.5M11 3.6c-.6.8-.6 1.7 0 2.5" />
+      </Fragment>
+    )
+  }
+  {
+    name === 'record' && (
+      <Fragment>
+        <circle cx="12" cy="12" r="8.2" />
+        <circle cx="12" cy="12" r="2.9" />
+        <circle cx="12" cy="12" r="0.5" fill="currentColor" stroke="none" />
+      </Fragment>
+    )
+  }
+  {
+    name === 'car' && (
+      <Fragment>
+        <path d="M2.6 15.5v-1.1a1.6 1.6 0 0 1 1.15-1.53l1.85-.55 1.95-2.86A2.5 2.5 0 0 1 11.6 8.4h3.1a2.5 2.5 0 0 1 2.1 1.15l1.4 2.15 2.2.68A1.6 1.6 0 0 1 21.5 13.9v1.6h-2" />
+        <path d="M8 15.5h7.5" />
+        <circle cx="6.2" cy="15.8" r="2" />
+        <circle cx="17.4" cy="15.8" r="2" />
+      </Fragment>
+    )
+  }
+  {
+    name === 'art' && (
+      <Fragment>
+        <path d="M12 3.4 3.6 7.8 12 12.2l8.4-4.4L12 3.4Z" />
+        <path d="M4 12l8 4.4 8-4.4" />
+        <path d="M4 15.8 12 20.2l8-4.4" />
+      </Fragment>
+    )
+  }
+  {
+    name === 'people' && (
+      <Fragment>
+        <circle cx="9" cy="8.4" r="2.6" />
+        <path d="M4.4 18.6a4.6 4.6 0 0 1 9.2 0" />
+        <circle cx="16.6" cy="9" r="2.1" />
+        <path d="M14.7 14.3a4 4 0 0 1 5.4 3.9" />
+      </Fragment>
+    )
+  }
+</svg>

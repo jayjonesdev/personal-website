@@ -1,0 +1,162 @@
+---
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+const { tag, name, note, blurb, reach, status, href } = project;
+
+const statusLabel = status === 'live' ? 'Live' : 'In development';
+const displayHost = href ? new URL(href).host.replace(/^www\./, '') : null;
+---
+
+<article class="card reveal">
+  <div class="card-top">
+    <span class="tag">{tag}</span>
+    <span class:list={['status', `status--${status}`]}>
+      <span class="dot" aria-hidden="true"></span>
+      {statusLabel}
+    </span>
+  </div>
+
+  <h3 class="card-name">
+    {name}
+    {note && <span class="card-note">/ {note}</span>}
+  </h3>
+
+  <p class="reach">
+    {
+      reach.map((r, i) => (
+        <Fragment>
+          {i > 0 && <span class="reach-sep" aria-hidden="true">·</span>}
+          <span>{r}</span>
+        </Fragment>
+      ))
+    }
+  </p>
+
+  <p class="card-blurb">{blurb}</p>
+
+  <div class="card-foot">
+    {
+      href ? (
+        <a class="card-link link" href={href} target="_blank" rel="noopener noreferrer">
+          {displayHost}
+          <span class="arrow" aria-hidden="true">↗</span>
+        </a>
+      ) : (
+        <span class="card-soon">Not yet public</span>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    padding: clamp(1.4rem, 3vw, 2rem);
+    background: color-mix(in srgb, var(--surface) 45%, transparent);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition: transform 0.28s cubic-bezier(0.2, 0.7, 0.2, 1),
+      border-color 0.28s ease, box-shadow 0.28s ease;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--line-strong);
+    box-shadow: 0 14px 30px -18px rgba(36, 27, 20, 0.35);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--faded);
+  }
+  .status .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex: none;
+  }
+  .status--live .dot {
+    background: var(--signal);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--signal) 22%, transparent);
+  }
+  .status--live {
+    color: var(--signal);
+  }
+  .status--in-development .dot {
+    background: var(--crema);
+  }
+
+  .card-name {
+    font-size: var(--step-3);
+    font-weight: 400;
+    line-height: 1.05;
+  }
+  .card-note {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.02em;
+    color: var(--faded);
+    white-space: nowrap;
+  }
+
+  .reach {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+    color: var(--crema-deep);
+  }
+  .reach-sep {
+    color: var(--faded);
+    padding-inline: 0.4rem;
+  }
+
+  .card-blurb {
+    color: var(--ink-soft);
+    font-size: var(--step-0);
+    line-height: 1.55;
+  }
+
+  .card-foot {
+    margin-top: auto;
+    padding-top: 0.4rem;
+  }
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.02em;
+  }
+  .card-link .arrow {
+    transition: transform 0.25s ease;
+  }
+  .card-link:hover .arrow {
+    transform: translate(2px, -2px);
+  }
+  .card-soon {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--faded);
+  }
+</style>

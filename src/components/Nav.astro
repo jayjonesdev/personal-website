@@ -1,0 +1,181 @@
+---
+const links = [
+  { href: '#about', label: 'About' },
+  { href: '#passions', label: 'Passions' },
+  { href: '#work', label: 'Work' },
+  { href: '#contact', label: 'Contact' },
+];
+---
+
+<header class="nav" id="site-nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" aria-label="Jerrell Jones — top of page">
+      <span class="brand-mark" aria-hidden="true">JJ</span>
+      <span class="brand-name">Jerrell Jones</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Sections">
+      {links.map((l) => <a href={l.href}>{l.label}</a>)}
+    </nav>
+
+    <button
+      class="theme-toggle"
+      type="button"
+      aria-label="Switch color theme"
+      title="Switch theme"
+    >
+      <svg class="ic ic-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.6" />
+        <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <line x1="12" y1="2.5" x2="12" y2="5" />
+          <line x1="12" y1="19" x2="12" y2="21.5" />
+          <line x1="2.5" y1="12" x2="5" y2="12" />
+          <line x1="19" y1="12" x2="21.5" y2="12" />
+          <line x1="5.2" y1="5.2" x2="6.9" y2="6.9" />
+          <line x1="17.1" y1="17.1" x2="18.8" y2="18.8" />
+          <line x1="18.8" y1="5.2" x2="17.1" y2="6.9" />
+          <line x1="6.9" y1="17.1" x2="5.2" y2="18.8" />
+        </g>
+      </svg>
+      <svg class="ic ic-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+          d="M20 14.2A8 8 0 0 1 9.8 4a8 8 0 1 0 10.2 10.2Z"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--paper) 82%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+  }
+  .nav.is-stuck {
+    border-bottom-color: var(--line);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.85rem;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .brand-mark {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }
+  .brand:hover .brand-mark {
+    border-color: var(--crema);
+    color: var(--crema-deep);
+  }
+  .brand-name {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+  }
+  .nav-links {
+    display: none;
+    gap: 1.6rem;
+    margin-left: auto;
+    margin-right: 1.4rem;
+  }
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.03em;
+    color: var(--ink-soft);
+    padding-block: 0.2rem;
+    border-bottom: 1.5px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .nav-links a:hover {
+    color: var(--ink);
+    border-bottom-color: var(--crema);
+  }
+  .theme-toggle {
+    display: grid;
+    place-items: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+  .theme-toggle:hover {
+    border-color: var(--crema);
+    color: var(--crema-deep);
+    transform: rotate(-12deg);
+  }
+  .theme-toggle .ic {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+  /* Show sun in dark mode, moon in light mode. */
+  .ic-sun {
+    display: none;
+  }
+  :global([data-theme='dark']) .ic-sun {
+    display: block;
+  }
+  :global([data-theme='dark']) .ic-moon {
+    display: none;
+  }
+
+  @media (min-width: 40rem) {
+    .nav-links {
+      display: flex;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var btn = document.querySelector('.theme-toggle');
+    if (btn) {
+      btn.addEventListener('click', function () {
+        var root = document.documentElement;
+        var next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        try {
+          localStorage.setItem('theme', next);
+        } catch (e) {}
+      });
+    }
+    var nav = document.getElementById('site-nav');
+    if (nav) {
+      var onScroll = function () {
+        nav.classList.toggle('is-stuck', window.scrollY > 8);
+      };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    }
+  })();
+</script>

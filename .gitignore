@@ -1,0 +1,17 @@
+# build output
+dist/
+# dependencies
+node_modules/
+# generated types
+.astro/
+# logs
+*.log
+npm-debug.log*
+# environment
+.env
+.env.production
+# macOS
+.DS_Store
+# stray pnpm files (this project uses npm)
+pnpm-lock.yaml
+pnpm-workspace.yaml
