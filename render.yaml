@@ -49,4 +49,4 @@ services:
 
     # Optional: attach a custom domain (also update `site` in astro.config.mjs).
     # domains:
-    #   - jerrelljones.dev
+    #   - jayjones.dev
