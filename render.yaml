@@ -1,0 +1,52 @@
+# Render Blueprint — deploys the built Astro site as a free Static Site.
+# Docs: https://render.com/docs/blueprint-spec
+#
+# One-time setup:
+#   1. Push this file to the repo (already on GitHub: jayjonesdev/personal-website).
+#   2. In Render: New + → Blueprint → connect this repo → Apply.
+# Render then builds on every push to main and serves ./dist over its global CDN.
+
+services:
+  - name: personal-website
+    type: web
+    runtime: static
+
+    # Build the site; static output is written to ./dist
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+
+    # Pin Node for reproducible builds (Astro 5 needs Node 18.20.8+, 20.3+, or 22+)
+    envVars:
+      - key: NODE_VERSION
+        value: "22.12.0"
+
+    # Spin up a preview deploy for every pull request
+    previews:
+      generation: automatic
+
+    # Single-page site: serve index.html for any unmatched path (no hard 404s).
+    # Real files in ./dist are served directly; this only catches misses.
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+    headers:
+      # Astro fingerprints these filenames, so they can be cached indefinitely
+      - path: /_astro/*
+        name: Cache-Control
+        value: "public, max-age=31536000, immutable"
+      # Sensible baseline security headers
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /*
+        name: X-Frame-Options
+        value: SAMEORIGIN
+
+    # Optional: attach a custom domain (also update `site` in astro.config.mjs).
+    # domains:
+    #   - jerrelljones.dev
