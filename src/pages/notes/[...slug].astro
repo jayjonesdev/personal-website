@@ -67,15 +67,15 @@ const slides = (gallery ?? [])
       }
     </header>
 
+    <div class="prose">
+      <Content />
+    </div>
+
     {
       slides.length > 0 && (
         <Slideshow images={slides} label={`${title} — photo gallery`} />
       )
     }
-
-    <div class="prose">
-      <Content />
-    </div>
 
     <footer class="note-foot">
       <a class="back" href="/notes/">
