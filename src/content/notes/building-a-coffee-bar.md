@@ -5,19 +5,19 @@ pubDate: 2026-07-23
 tags: ['coffee', 'woodworking', 'diy']
 gallery:
   - src: coffee-bar-one/IMG_0722.jpg
-  - src: coffee-bar-one/IMG_1433.jpg
   - src: coffee-bar-one/IMG_1435.jpg
+  - src: coffee-bar-one/IMG_1433.jpg
   - src: coffee-bar-one/IMG_2042.jpg
   - src: coffee-bar-one/IMG_2046.jpg
   - src: coffee-bar-one/IMG_2104.jpg
   - src: coffee-bar-one/IMG_2112.jpg
   - src: coffee-bar-one/IMG_2175.jpg
-  - src: coffee-bar-one/IMG_2184.jpg
   - src: coffee-bar-one/IMG_2583.jpg
-  - src: coffee-bar-one/IMG_2738.jpg
-  - src: coffee-bar-one/IMG_2757.jpg
   - src: coffee-bar-one/IMG_2941.jpg
   - src: coffee-bar-one/IMG_2946.jpg
+  - src: coffee-bar-one/IMG_2738.jpg
+  - src: coffee-bar-one/IMG_2757.jpg
+  - src: coffee-bar-one/IMG_2184.jpg
   - src: coffee-bar-one/IMG_4263.jpg
   - src: coffee-bar-one/IMG_4272.jpg
 ---
