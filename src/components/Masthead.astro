@@ -3,10 +3,13 @@ import { Image } from 'astro:assets';
 import portrait from '../assets/jerrell.jpg';
 import { currently } from '../data/passions';
 
+// `n` numbers the four on-page sections; the Field Notes entry links off to
+// its own page, so it gets a ↗ marker instead of a section number.
 const contents = [
   { n: '01', href: '#about', label: 'About' },
   { n: '02', href: '#passions', label: 'Passions' },
   { n: '03', href: '#work', label: 'Work' },
+  { n: '↗', href: '/notes', label: 'Field Notes' },
   { n: '04', href: '#contact', label: 'Contact' },
 ];
 ---

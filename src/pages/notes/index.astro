@@ -1,0 +1,66 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import NoteList from '../../components/NoteList.astro';
+
+const notes = (await getCollection('notes')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<Base
+  title="Field Notes — Jerrell Jones"
+  description="Occasional writing on coffee, code, records, and the garage — by Jerrell Jones."
+>
+  <header class="wrap page-head">
+    <p class="eyebrow reveal">Field Notes</p>
+    <h1 class="page-title reveal">Field Notes</h1>
+    <p class="page-lede reveal">
+      Occasional writing on coffee, code, records, and the garage. Slower than a
+      feed, and better for it.
+      <a class="rss-link" href="/rss.xml" title="RSS feed">RSS</a>
+    </p>
+  </header>
+
+  <div class="wrap">
+    <NoteList notes={notes} />
+  </div>
+</Base>
+
+<style>
+  .page-head {
+    padding-top: clamp(3rem, 7vw, 6rem);
+    padding-bottom: clamp(2rem, 4vw, 3.5rem);
+    border-bottom: 1px solid var(--line);
+  }
+  .page-title {
+    font-size: var(--step-5);
+    font-weight: 400;
+    margin-top: 0.6rem;
+    letter-spacing: -0.03em;
+  }
+  .page-lede {
+    max-width: var(--measure);
+    margin-top: 1.2rem;
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .rss-link {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: 0.12em;
+    color: var(--crema-deep);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    padding: 0.1rem 0.4rem;
+    margin-left: 0.5rem;
+    white-space: nowrap;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .rss-link:hover {
+    border-color: var(--crema);
+    color: var(--crema);
+  }
+</style>

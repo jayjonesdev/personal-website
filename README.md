@@ -27,8 +27,12 @@ GitHub Pages, or any static host.
 | --- | --- |
 | `src/data/projects.ts` | The four featured projects (name, blurb, reach, status, link) |
 | `src/data/passions.ts` | The five passions + the hero "Currently" strip |
-| `src/components/` | `Nav`, `Masthead`, `About`, `Passions`, `Projects`, `ProjectCard`, `Contact`, `Footer` |
-| `src/styles/global.css` | Design tokens, themes, type scale, shared primitives |
+| `src/components/` | `Nav`, `Masthead`, `About`, `Passions`, `Projects`, `ProjectCard`, `Contact`, `Footer`, `NoteList` |
+| `src/content/notes/` | Field Notes posts — one Markdown file per post |
+| `src/content.config.ts` | Field Notes collection schema (title, description, pubDate, tags) |
+| `src/pages/notes/` | Blog listing, per-post pages, and tag pages |
+| `src/pages/rss.xml.js` | RSS feed served at `/rss.xml` |
+| `src/styles/global.css` | Design tokens, themes, type scale, shared primitives, `.prose` |
 | `src/assets/jerrell.jpg` | Portrait (optimized at build via `astro:assets`) |
 | `scripts/generate-og.mjs` | Regenerates `public/og.png` social card |
 
@@ -39,6 +43,47 @@ GitHub Pages, or any static host.
 - **Copy** — the About, hero, and section text lives in the matching component.
 - **Colors & type** — all tokens are CSS custom properties at the top of
   `src/styles/global.css` (light `:root`, dark `:root[data-theme='dark']`).
+
+## Writing a Field Note (blog)
+
+Posts live at **`/notes`**. To publish one, drop a Markdown file in
+`src/content/notes/` — the filename becomes the URL slug
+(`my-post.md` → `/notes/my-post/`):
+
+```markdown
+---
+title: My post title
+description: One or two sentences shown in the list, meta, and RSS.
+pubDate: 2026-08-01
+tags: ['coffee', 'ritual']   # optional; each becomes a /notes/tags/<tag> page
+# updatedDate: 2026-08-05     # optional
+---
+
+Write in Markdown. Headings, lists, **bold**, _italics_, > blockquotes,
+`code`, and images are all styled to match the site.
+```
+
+Posts auto-sort newest-first, generate their own page, add their tags to the
+tag index, and appear in the RSS feed at `/rss.xml`. The frontmatter is
+type-checked at build against `src/content.config.ts`, so a typo fails the
+build instead of shipping broken.
+
+### Adding a photo slideshow
+
+Any post can include an image carousel. Put web-friendly images (JPEG/PNG/WebP —
+**not** HEIC, which browsers can't display) under `src/assets/notes/`, then add
+a `gallery` list to the post's frontmatter:
+
+```yaml
+gallery:
+  - src: coffee-bar-one/IMG_0722.jpg      # path relative to src/assets/notes/
+    caption: Optional caption for this slide.
+  - src: coffee-bar-one/IMG_1433.jpg
+```
+
+Images are optimized to responsive WebP at build, and the slideshow supports
+arrows, keyboard (←/→), swipe, and a slide counter. `caption` and `alt` are
+optional per image.
 
 ## Before deploying
 

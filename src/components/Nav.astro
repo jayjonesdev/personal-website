@@ -1,15 +1,17 @@
 ---
+// Absolute (`/#…`) so section links also work from /notes pages.
 const links = [
-  { href: '#about', label: 'About' },
-  { href: '#passions', label: 'Passions' },
-  { href: '#work', label: 'Work' },
-  { href: '#contact', label: 'Contact' },
+  { href: '/#about', label: 'About' },
+  { href: '/#passions', label: 'Passions' },
+  { href: '/#work', label: 'Work' },
+  { href: '/notes', label: 'Field Notes' },
+  { href: '/#contact', label: 'Contact' },
 ];
 ---
 
 <header class="nav" id="site-nav">
   <div class="wrap nav-inner">
-    <a class="brand" href="#top" aria-label="Jerrell Jones — top of page">
+    <a class="brand" href="/" aria-label="Jerrell Jones — home">
       <span class="brand-mark" aria-hidden="true">JJ</span>
       <span class="brand-name">Jerrell Jones</span>
     </a>
@@ -109,6 +111,7 @@ const links = [
     letter-spacing: 0.03em;
     color: var(--ink-soft);
     padding-block: 0.2rem;
+    white-space: nowrap;
     border-bottom: 1.5px solid transparent;
     transition: color 0.2s ease, border-color 0.2s ease;
   }

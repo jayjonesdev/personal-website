@@ -1,0 +1,130 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, isoDate } from '../lib/date';
+
+interface Props {
+  notes: CollectionEntry<'notes'>[];
+}
+const { notes } = Astro.props;
+---
+
+<ul class="note-list">
+  {
+    notes.map((note) => (
+      <li class="note-row reveal">
+        <a href={`/notes/${note.id}/`}>
+          <time class="note-date" datetime={isoDate(note.data.pubDate)}>
+            {formatDate(note.data.pubDate)}
+          </time>
+          <div class="note-main">
+            <h2 class="note-title">{note.data.title}</h2>
+            <p class="note-desc">{note.data.description}</p>
+            {note.data.tags.length > 0 && (
+              <ul class="note-tags" aria-label="Tags">
+                {note.data.tags.map((t) => (
+                  <li>{t}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <span class="note-arrow" aria-hidden="true">
+            →
+          </span>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .note-list {
+    list-style: none;
+    padding: 0;
+    margin-block: clamp(1rem, 3vw, 2rem) var(--rhythm);
+  }
+  .note-row {
+    border-bottom: 1px solid var(--line);
+  }
+  .note-row a {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.3rem 1.5rem;
+    align-items: baseline;
+    padding: 1.6rem 0.25rem;
+    transition: padding-left 0.25s ease, background-color 0.25s ease;
+  }
+  @media (min-width: 44rem) {
+    .note-row a {
+      grid-template-columns: 8.5rem 1fr auto;
+    }
+  }
+  .note-row a:hover {
+    padding-left: 0.85rem;
+    background-color: color-mix(in srgb, var(--surface) 45%, transparent);
+  }
+  .note-date {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+    color: var(--faded);
+    order: 2;
+  }
+  @media (min-width: 44rem) {
+    .note-date {
+      order: 0;
+      padding-top: 0.35rem;
+    }
+  }
+  .note-main {
+    order: 1;
+    grid-column: 1 / -1;
+  }
+  @media (min-width: 44rem) {
+    .note-main {
+      grid-column: auto;
+    }
+  }
+  .note-title {
+    font-size: var(--step-2);
+    font-weight: 400;
+    transition: color 0.2s ease;
+  }
+  .note-row a:hover .note-title {
+    color: var(--signal);
+  }
+  .note-desc {
+    max-width: 42rem;
+    margin-top: 0.4rem;
+    color: var(--ink-soft);
+    font-size: var(--step-0);
+    line-height: 1.55;
+  }
+  .note-tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0;
+    margin-top: 0.7rem;
+  }
+  .note-tags li {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: 0.08em;
+    color: var(--faded);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.1rem 0.6rem;
+  }
+  .note-arrow {
+    order: 3;
+    align-self: center;
+    font-family: var(--font-mono);
+    color: var(--faded);
+    transition: transform 0.25s ease, color 0.25s ease;
+  }
+  .note-row a:hover .note-arrow {
+    transform: translateX(4px);
+    color: var(--signal);
+  }
+</style>
