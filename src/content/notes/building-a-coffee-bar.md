@@ -15,6 +15,8 @@ gallery:
   - src: coffee-bar-one/IMG_2583.jpg
   - src: coffee-bar-one/IMG_2738.jpg
   - src: coffee-bar-one/IMG_2757.jpg
+  - src: coffee-bar-one/IMG_2941.jpg
+  - src: coffee-bar-one/IMG_2946.jpg
   - src: coffee-bar-one/IMG_4263.jpg
   - src: coffee-bar-one/IMG_4272.jpg
 ---
