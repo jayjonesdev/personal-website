@@ -4,22 +4,39 @@ description: How a $3,000 cabinet quote and a stack of YouTube videos turned int
 pubDate: 2026-07-23
 tags: ['coffee', 'woodworking', 'diy']
 gallery:
+  # Add a caption for any photo by filling in the quotes. Leave '' for none.
   - src: coffee-bar-one/IMG_0722.jpg
+    caption: ''
   - src: coffee-bar-one/IMG_1435.jpg
+    caption: ''
   - src: coffee-bar-one/IMG_1433.jpg
+    caption: ''
   - src: coffee-bar-one/IMG_2042.jpg
+    caption: ''
   - src: coffee-bar-one/IMG_2046.jpg
+    caption: ''
   - src: coffee-bar-one/IMG_2104.jpg
+    caption: ''
   - src: coffee-bar-one/IMG_2112.jpg
+    caption: ''
   - src: coffee-bar-one/IMG_2175.jpg
+    caption: ''
   - src: coffee-bar-one/IMG_2583.jpg
+    caption: ''
   - src: coffee-bar-one/IMG_2941.jpg
+    caption: ''
   - src: coffee-bar-one/IMG_2946.jpg
+    caption: ''
   - src: coffee-bar-one/IMG_2738.jpg
+    caption: ''
   - src: coffee-bar-one/IMG_2757.jpg
+    caption: ''
   - src: coffee-bar-one/IMG_2184.jpg
+    caption: ''
   - src: coffee-bar-one/IMG_4263.jpg
+    caption: ''
   - src: coffee-bar-one/IMG_4272.jpg
+    caption: ''
 ---
 
 For the longest time, I’ve been brewing my morning cup in the basement at our
