@@ -6,37 +6,37 @@ tags: ['coffee', 'woodworking', 'diy']
 gallery:
   # Add a caption for any photo by filling in the quotes. Leave '' for none.
   - src: coffee-bar-one/IMG_0722.jpg
-    caption: ''
+    caption: 'Old coffee bar setup'
   - src: coffee-bar-one/IMG_1435.jpg
-    caption: ''
+    caption: 'China cabinet location in the kitchen'
   - src: coffee-bar-one/IMG_1433.jpg
-    caption: ''
+    caption: 'Used masking tape to figure out how the cabinets would fit'
   - src: coffee-bar-one/IMG_2042.jpg
-    caption: ''
+    caption: 'Workship outside in the winter'
   - src: coffee-bar-one/IMG_2046.jpg
-    caption: ''
+    caption: 'Bottom cabinet inside, prepping for paint'
   - src: coffee-bar-one/IMG_2104.jpg
-    caption: ''
+    caption: 'Toe kick'
   - src: coffee-bar-one/IMG_2112.jpg
-    caption: ''
+    caption: 'Top and bottom cabinet installed'
   - src: coffee-bar-one/IMG_2175.jpg
-    caption: ''
+    caption: 'Loaded top cabinet'
   - src: coffee-bar-one/IMG_2583.jpg
-    caption: ''
+    caption: 'Custom granite countertop'
   - src: coffee-bar-one/IMG_2941.jpg
-    caption: ''
+    caption: 'Drawer box'
   - src: coffee-bar-one/IMG_2946.jpg
-    caption: ''
+    caption: 'Installed drawer'
   - src: coffee-bar-one/IMG_2738.jpg
-    caption: ''
+    caption: 'Bottom cabinet with countertop installed and equipment loaded onto it'
   - src: coffee-bar-one/IMG_2757.jpg
-    caption: ''
+    caption: 'DF64V V2 with SSP Lab Sweet Cast Reds, Fellow Ode Brew Grinder Gen 2 with SSP MP Brew Burrs, Gaggia Classic Evo Pro, Tea Kettle (Left to right)'
   - src: coffee-bar-one/IMG_2184.jpg
-    caption: ''
+    caption: 'Shaker style door made with MDF (bottom cabinet)'
   - src: coffee-bar-one/IMG_4263.jpg
-    caption: ''
+    caption: 'Painters tent'
   - src: coffee-bar-one/IMG_4272.jpg
-    caption: ''
+    caption: 'Primbed bottom and top cabinet doors'
 ---
 
 For the longest time, I’ve been brewing my morning cup in the basement at our
