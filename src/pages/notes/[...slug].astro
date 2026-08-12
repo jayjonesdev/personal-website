@@ -3,6 +3,8 @@ import { getCollection, render } from 'astro:content';
 import type { ImageMetadata } from 'astro';
 import Base from '../../layouts/Base.astro';
 import Slideshow from '../../components/Slideshow.astro';
+import Checklist from '../../components/Checklist.astro';
+import { checklists } from '../../data/checklists';
 import { formatDate, isoDate } from '../../lib/date';
 
 export async function getStaticPaths() {
@@ -15,7 +17,15 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const { title, description, pubDate, updatedDate, tags, gallery } = entry.data;
+const { title, description, pubDate, updatedDate, tags, gallery, checklist } =
+  entry.data;
+
+const card = checklist ? checklists[checklist] : undefined;
+if (checklist && !card) {
+  throw new Error(
+    `Note "${entry.id}" references checklist "${checklist}", which isn't defined in src/data/checklists.ts.`
+  );
+}
 
 // Resolve gallery paths (relative to src/assets/notes/) to optimized images.
 const galleryModules = import.meta.glob<{ default: ImageMetadata }>(
@@ -76,6 +86,8 @@ const slides = (gallery ?? [])
         <Slideshow images={slides} label={`${title} — photo gallery`} />
       )
     }
+
+    {card && <Checklist data={card} storageKey={entry.id} />}
 
     <footer class="note-foot">
       <a class="back" href="/notes/">

@@ -10,6 +10,9 @@ const notes = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     tags: z.array(z.string()).default([]),
+    // Optional interactive field-card checklist, rendered after the post.
+    // Value is a key in src/data/checklists.ts.
+    checklist: z.string().optional(),
     // Optional image slideshow. `src` is relative to src/assets/notes/.
     gallery: z
       .array(

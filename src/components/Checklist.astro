@@ -1,0 +1,574 @@
+---
+import type { Checklist } from '../data/checklists';
+
+interface Props {
+  data: Checklist;
+  /** Namespaces saved progress in localStorage — pass the post slug. */
+  storageKey?: string;
+}
+const { data, storageKey } = Astro.props;
+
+const escape = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+/** `*emphasis*` → bold; `{HOT}` / `{COLD}` / `{anything}` → pill. */
+function inline(s: string): string {
+  return escape(s)
+    .replace(/\{([^}]+)\}/g, (_m, raw: string) => {
+      const label = raw.trim();
+      const kind =
+        label.toUpperCase() === 'HOT'
+          ? ' is-hot'
+          : label.toUpperCase() === 'COLD'
+            ? ' is-cold'
+            : '';
+      return `<span class="fc-pill${kind}">${label}</span>`;
+    })
+    .replace(/\*([^*]+)\*/g, '<b>$1</b>');
+}
+
+/** Tint bracketed keys, highlight "◄ SELECT" lines, dim "(skip)" lines. */
+function treeMarkup(s: string): string {
+  return escape(s)
+    .split('\n')
+    .map((line) => {
+      const keyed = line.replace(
+        /\[([^\]]+)\]/g,
+        '<span class="fc-key">[$1]</span>'
+      );
+      if (line.includes('◄')) return `<span class="fc-sel">${keyed}</span>`;
+      if (line.includes('(skip)')) return `<span class="fc-skip">${keyed}</span>`;
+      return keyed;
+    })
+    .join('\n');
+}
+
+const total = data.phases.reduce(
+  (n, phase) => n + phase.rows.filter((r) => 'check' in r).length,
+  0
+);
+const titleId = `fc-title-${storageKey ?? 'card'}`;
+---
+
+<section
+  class="fieldcard"
+  aria-labelledby={titleId}
+  data-key={storageKey ? `checklist:${storageKey}` : null}
+>
+  <header class="fc-head">
+    <p class="fc-eyebrow">{data.eyebrow}</p>
+    <h2 class="fc-title" id={titleId}>
+      {data.title}
+      {data.titleMuted && <span class="fc-muted">{data.titleMuted}</span>}
+    </h2>
+
+    {
+      data.chips && data.chips.length > 0 && (
+        <ul class="fc-chips">
+          {data.chips.map((c) => (
+            <li>
+              {c.label}: <b>{c.value}</b>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    <p class="fc-progress">
+      <span>Progress</span>
+      <span class="fc-bar" aria-hidden="true"><span class="fc-fill"></span></span>
+      <span class="fc-count" aria-live="polite">0 / {total}</span>
+    </p>
+  </header>
+
+  {
+    data.caution && (
+      <div class="fc-caution">
+        <p class="fc-caution-tag">
+          <span aria-hidden="true">⚠</span> {data.caution.title}
+        </p>
+        <ul>
+          {data.caution.items.map((item) => (
+            <li set:html={inline(item)} />
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  {
+    data.phases.map((phase) => (
+      <section class="fc-phase">
+        <div class="fc-phase-head">
+          <span class="fc-num">{phase.num}</span>
+          <h3>{phase.title}</h3>
+          {phase.where && <span class="fc-where">{phase.where}</span>}
+        </div>
+
+        {phase.rows.map((row) =>
+          'tree' in row ? (
+            <pre class="fc-tree" set:html={treeMarkup(row.tree)} />
+          ) : 'note' in row ? (
+            <p class="fc-note" set:html={inline(row.note)} />
+          ) : (
+            <label class="fc-item">
+              <input type="checkbox" />
+              <span class="fc-box" aria-hidden="true">
+                <svg viewBox="0 0 16 16">
+                  <path d="M3 8.5l3.5 3.5L13 4" />
+                </svg>
+              </span>
+              <span class="fc-txt">
+                <span class="fc-lead" set:html={inline(row.check)} />
+                {row.sub && <span class="fc-sub" set:html={inline(row.sub)} />}
+              </span>
+            </label>
+          )
+        )}
+      </section>
+    ))
+  }
+
+  <button type="button" class="fc-reset">Reset checklist</button>
+
+  {
+    (data.refs || data.footnote) && (
+      <footer class="fc-refs">
+        {data.refs && data.refs.length > 0 && (
+          <>
+            <b>Refs</b>
+            {data.refs.map((ref) => (
+              <span class="fc-ref">{ref}</span>
+            ))}
+          </>
+        )}
+        {data.footnote && <p class="fc-footnote">{data.footnote}</p>}
+      </footer>
+    )
+  }
+</section>
+
+<style>
+  .fieldcard {
+    max-width: 52rem;
+    margin: clamp(2.5rem, 5vw, 4rem) auto 0;
+    padding: clamp(1.3rem, 3vw, 2.2rem);
+    background: var(--paper-2);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+  }
+
+  /* ---------- Masthead ---------- */
+  .fc-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--crema-deep);
+  }
+  .fc-eyebrow::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--crema), transparent);
+  }
+  .fc-title {
+    margin-top: 0.75rem;
+    font-size: var(--step-2);
+  }
+  .fc-muted {
+    color: var(--faded);
+  }
+
+  .fc-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1rem;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: 0.02em;
+    color: var(--faded);
+  }
+  .fc-chips li {
+    padding: 0.25rem 0.7rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+  }
+  .fc-chips b {
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  .fc-progress {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-top: 1.35rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--faded);
+  }
+  .fc-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .fc-fill {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--crema), var(--fc-done));
+    transition: width 0.35s ease;
+  }
+  .fc-count {
+    flex: none;
+    color: var(--ink);
+    letter-spacing: 0.06em;
+  }
+
+  /* ---------- Caution ---------- */
+  .fc-caution {
+    margin-top: 1.5rem;
+    padding: 0.9rem 1.1rem;
+    background: color-mix(in srgb, var(--crema) 9%, transparent);
+    border: 1px solid color-mix(in srgb, var(--crema) 55%, transparent);
+    border-radius: var(--radius);
+  }
+  .fc-caution-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--crema-deep);
+  }
+  .fc-caution ul {
+    margin-top: 0.6rem;
+    padding-left: 1.15rem;
+    font-size: var(--step--1);
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .fc-caution li + li {
+    margin-top: 0.4rem;
+  }
+  .fc-caution li::marker {
+    color: var(--crema);
+  }
+  .fc-caution :global(b) {
+    color: var(--crema-deep);
+    font-weight: 600;
+  }
+
+  /* ---------- Phases ---------- */
+  .fc-phase {
+    margin-top: 1.7rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+  .fc-phase-head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.8rem;
+    margin-bottom: 0.9rem;
+  }
+  .fc-num {
+    flex: none;
+    padding: 0.15rem 0.45rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--paper);
+    background: var(--crema-deep);
+    border-radius: 3px;
+  }
+  .fc-phase-head h3 {
+    font-size: var(--step-1);
+  }
+  .fc-where {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: 0.04em;
+    color: var(--faded);
+  }
+
+  /* ---------- Check items ---------- */
+  .fc-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    margin-top: 0.55rem;
+    padding: 0.7rem 0.85rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: border-color 0.18s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .fc-item:hover {
+    border-color: var(--line-strong);
+  }
+  .fc-item input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .fc-box {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 1.3rem;
+    height: 1.3rem;
+    margin-top: 0.1rem;
+    border: 2px solid var(--line-strong);
+    border-radius: 3px;
+    transition: background-color 0.18s ease, border-color 0.18s ease;
+  }
+  .fc-box svg {
+    width: 0.72rem;
+    height: 0.72rem;
+    fill: none;
+    stroke: var(--paper);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 20;
+    stroke-dashoffset: 20;
+    transition: stroke-dashoffset 0.2s ease;
+  }
+  .fc-item input:checked ~ .fc-box {
+    background: var(--fc-done);
+    border-color: var(--fc-done);
+  }
+  .fc-item input:checked ~ .fc-box svg {
+    stroke-dashoffset: 0;
+  }
+  .fc-item input:focus-visible ~ .fc-box {
+    outline: 2px solid var(--signal);
+    outline-offset: 3px;
+  }
+
+  .fc-txt {
+    min-width: 0;
+  }
+  .fc-lead {
+    display: block;
+    font-size: var(--step-0);
+    line-height: 1.45;
+    color: var(--ink);
+  }
+  .fc-item input:checked ~ .fc-txt .fc-lead {
+    color: var(--faded);
+    text-decoration: line-through;
+    text-decoration-color: var(--line-strong);
+  }
+  .fc-sub {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: var(--step--1);
+    line-height: 1.5;
+    color: var(--faded);
+  }
+  /* A completed row should recede whole — its bold sets its own colour, so it
+     has to be told to inherit the faded one. */
+  .fc-item input:checked ~ .fc-txt :global(b) {
+    color: inherit;
+  }
+
+  /* Injected by set:html, so these need :global to survive scoping. */
+  .fieldcard :global(b) {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .fieldcard :global(.fc-pill) {
+    padding: 0.05em 0.4em;
+    font-family: var(--font-mono);
+    font-size: 0.74em;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    vertical-align: 0.06em;
+    color: var(--ink-soft);
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+  }
+  .fieldcard :global(.fc-pill.is-hot) {
+    color: var(--fc-hot);
+    background: color-mix(in srgb, var(--fc-hot) 10%, transparent);
+    border-color: color-mix(in srgb, var(--fc-hot) 45%, transparent);
+  }
+  .fieldcard :global(.fc-pill.is-cold) {
+    color: var(--fc-cold);
+    background: color-mix(in srgb, var(--fc-cold) 10%, transparent);
+    border-color: color-mix(in srgb, var(--fc-cold) 45%, transparent);
+  }
+
+  /* ---------- Menu tree ---------- */
+  .fc-tree {
+    margin-top: 0.9rem;
+    padding: 0.9rem 1rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    line-height: 1.7;
+    color: var(--faded);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow-x: auto;
+  }
+  .fc-tree :global(.fc-key) {
+    color: var(--crema-deep);
+  }
+  .fc-tree :global(.fc-sel) {
+    color: var(--fc-done);
+  }
+  .fc-tree :global(.fc-skip) {
+    color: color-mix(in srgb, var(--faded) 65%, transparent);
+  }
+
+  /* ---------- Note ---------- */
+  .fc-note {
+    margin-top: 0.9rem;
+    padding: 0.7rem 1rem;
+    font-size: var(--step--1);
+    line-height: 1.55;
+    color: var(--ink-soft);
+    background: var(--paper);
+    border-left: 2px solid var(--crema);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+
+  /* ---------- Reset + refs ---------- */
+  .fc-reset {
+    display: block;
+    width: 100%;
+    margin-top: 1.6rem;
+    padding: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--faded);
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: color 0.18s ease, border-color 0.18s ease;
+  }
+  .fc-reset:hover {
+    color: var(--fc-hot);
+    border-color: var(--fc-hot);
+  }
+
+  .fc-refs {
+    margin-top: 1.5rem;
+    padding-top: 1.1rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    line-height: 1.75;
+    color: var(--faded);
+    border-top: 1px solid var(--line);
+  }
+  .fc-refs b {
+    display: block;
+    color: var(--ink-soft);
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .fc-ref {
+    display: block;
+  }
+  .fc-footnote {
+    margin-top: 0.7rem;
+    color: color-mix(in srgb, var(--faded) 80%, transparent);
+  }
+
+  /* Progress + reset do nothing without JS, so don't show them. */
+  :global(html:not(.js)) .fc-progress,
+  :global(html:not(.js)) .fc-reset {
+    display: none;
+  }
+</style>
+
+<script>
+  function initChecklist(root: HTMLElement) {
+    const boxes = Array.from(
+      root.querySelectorAll<HTMLInputElement>('.fc-item input')
+    );
+    if (boxes.length === 0) return;
+    const fill = root.querySelector<HTMLElement>('.fc-fill');
+    const count = root.querySelector<HTMLElement>('.fc-count');
+    const key = root.dataset.key;
+
+    function save() {
+      if (!key) return;
+      try {
+        const done = boxes
+          .map((b, i) => (b.checked ? i : -1))
+          .filter((i) => i >= 0);
+        if (done.length) localStorage.setItem(key, done.join(','));
+        else localStorage.removeItem(key);
+      } catch (e) {
+        /* private mode / storage full — progress just won't persist */
+      }
+    }
+
+    function restore() {
+      if (!key) return;
+      try {
+        const saved = localStorage.getItem(key);
+        if (!saved) return;
+        saved.split(',').forEach((n) => {
+          const box = boxes[Number(n)];
+          if (box) box.checked = true;
+        });
+      } catch (e) {}
+    }
+
+    function render() {
+      const done = boxes.filter((b) => b.checked).length;
+      if (count) count.textContent = `${done} / ${boxes.length}`;
+      if (fill) fill.style.width = `${(done / boxes.length) * 100}%`;
+    }
+
+    boxes.forEach((b) =>
+      b.addEventListener('change', () => {
+        save();
+        render();
+      })
+    );
+
+    root.querySelector('.fc-reset')?.addEventListener('click', () => {
+      boxes.forEach((b) => (b.checked = false));
+      save();
+      render();
+    });
+
+    restore();
+    render();
+  }
+
+  document
+    .querySelectorAll<HTMLElement>('.fieldcard')
+    .forEach(initChecklist);
+</script>

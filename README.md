@@ -27,7 +27,8 @@ GitHub Pages, or any static host.
 | --- | --- |
 | `src/data/projects.ts` | The four featured projects (name, blurb, reach, status, link) |
 | `src/data/passions.ts` | The five passions + the hero "Currently" strip |
-| `src/components/` | `Nav`, `Masthead`, `About`, `Passions`, `Projects`, `ProjectCard`, `Contact`, `Footer`, `NoteList` |
+| `src/components/` | `Nav`, `Masthead`, `About`, `Passions`, `Projects`, `ProjectCard`, `Contact`, `Footer`, `NoteList`, `Slideshow`, `Checklist` |
+| `src/data/checklists.ts` | Field-card checklists a post can attach (see below) |
 | `src/content/notes/` | Field Notes posts — one Markdown file per post |
 | `src/content.config.ts` | Field Notes collection schema (title, description, pubDate, tags) |
 | `src/pages/notes/` | Blog listing, per-post pages, and tag pages |
@@ -84,6 +85,34 @@ gallery:
 Images are optimized to responsive WebP at build, and the slideshow supports
 arrows, keyboard (←/→), swipe, and a slide counter. `caption` and `alt` are
 optional per image.
+
+### Adding a field-card checklist
+
+A how-it-went post can end with an interactive "field card" — a tickable
+checklist grouped into phases, with a progress bar that remembers what's been
+checked (per post, in `localStorage`). Define the card in
+`src/data/checklists.ts`, then name its key in the post's frontmatter:
+
+```yaml
+checklist: recirculation
+```
+
+A card is a list of `phases`, each holding `rows`. A row is one of three shapes,
+and they render in the order you write them:
+
+```ts
+{ check: 'Power the unit off', sub: 'Optional second line.' }  // a checkbox
+{ tree: '[Menu] ─► Setting ─► [OK]\n  ├─ …' }                  // ASCII menu map
+{ note: 'An aside that sits inside the phase.' }               // callout
+```
+
+Inside `check` / `sub` / `note` / caution text, `*emphasis*` becomes bold and
+`{…}` becomes a small pill — `{HOT}` and `{COLD}` are tinted for the hot and
+cold water lines, anything else (`{EXT}`, `{H + C}`) renders neutral. Referencing
+a key that doesn't exist fails the build rather than silently dropping the card.
+
+The progress bar and reset button are hidden without JavaScript; the checkboxes
+themselves still work.
 
 ## Before deploying
 

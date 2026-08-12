@@ -19,6 +19,12 @@
   --signal: #245e9c;
   --signal-soft: #2f6fb2;
 
+  /* Field-card accents (checklists): done / hot line / cold line. Warm
+     moss + brick so they sit on kraft; "cold" reuses the WR-blue signal. */
+  --fc-done: #5c7a3c;
+  --fc-hot: #a8442c;
+  --fc-cold: var(--signal);
+
   /* Type families */
   --font-serif: 'Newsreader Variable', 'Newsreader', Georgia, 'Times New Roman',
     serif;
@@ -61,6 +67,8 @@
   --crema-deep: #e3aa63;
   --signal: #74acdd;
   --signal-soft: #8dbde6;
+  --fc-done: #9dba6d;
+  --fc-hot: #dd7b5e;
   color-scheme: dark;
 }
 
