@@ -24,8 +24,8 @@ gallery:
 Traditionally, hot water takes a while to reach the furthest sink in your house.
 It has to travel further, and the water sitting in the line goes cold in the
 meantime. About two years ago we replaced our water heater tank with a tankless
-unit. Mystified by its size and efficiency, I still noticed the same problem:
-the kitchen and the bathroom took ages to get warm.
+unit. Impressed as I was by its size and efficiency, I still had the same
+problem: the kitchen and the bathroom took ages to get warm.
 
 After some careful research I stumbled onto recirculation valves and how they
 interact with the recirculation pump built into my water heater. Since my house
@@ -52,13 +52,14 @@ flooding the cold line.
 4. Go to your furthest sink and install the recirculation valve.
 5. Purge any air out of the valve.
 6. Head back to the water heater and turn on the recirculation settings.
-   - I tested with **always on** first, just to verify the valve was working.
-   - Then I switched to **smart intelligent recirculation**, which learns your
-     hot water usage at that faucet and sends hot water there on a schedule.
+   - I tested with **Always On** first, just to verify the valve was working.
+   - Then I switched to **Intelligent** recirculation, which learns your hot
+     water usage at that faucet and sends hot water there on a schedule.
 
 A note on sink choice: I picked the bathroom sink instead of the kitchen sink.
-The kitchen is one stop before the bathroom on the same line, so it fills with
-warm water on the way through. Kind of a two-for-one hack, if you will.
+The kitchen is one stop before the bathroom on the same line, so the kitchen
+line fills with warm water on the way through. Kind of a two-for-one hack, if
+you will.
 
 ## The parts
 

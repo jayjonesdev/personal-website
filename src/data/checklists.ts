@@ -59,7 +59,7 @@ const recirculation: Checklist = {
     title: 'Read first',
     items: [
       '*Power off* the unit before you remove the front cover.',
-      "*Don't touch the two front-panel DIP switches* — on the A2 they're only gas type & temp-lock. Recirc is set in the menu, not there.",
+      '*Don’t touch the two front-panel DIP switches* — on the A2 they’re only gas type and temp-lock. Recirc is set in the menu, not there.',
       'Don’t run the pump until the loop is *fully purged* — trapped air can damage it.',
     ],
   },
