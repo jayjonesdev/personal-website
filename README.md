@@ -86,6 +86,19 @@ Images are optimized to responsive WebP at build, and the slideshow supports
 arrows, keyboard (←/→), swipe, and a slide counter. `caption` and `alt` are
 optional per image.
 
+The gallery lands after the whole post by default. To put it partway through,
+name the heading it should sit above:
+
+```yaml
+galleryBefore: The parts   # matched on the heading's text, case-insensitive
+```
+
+A heading text that matches nothing fails the build. This one option can't be
+combined with images placed inline in the Markdown body — it works by splitting
+the rendered HTML, and inline images are placeholders that only survive the
+normal render path. That combination fails the build too, rather than shipping
+broken images.
+
 ### Adding a field-card checklist
 
 A how-it-went post can end with an interactive "field card" — a tickable

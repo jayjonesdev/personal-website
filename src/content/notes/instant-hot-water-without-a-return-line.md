@@ -1,10 +1,11 @@
 ---
 title: Instant hot water without a return line
-description: How a $40 recirculation valve under the furthest bathroom sink finally
+description: How an $80 recirculation valve under the furthest bathroom sink finally
   got hot water to the far end of the house.
 pubDate: 2026-08-12
 tags: ['home', 'diy', 'plumbing']
 checklist: recirculation
+galleryBefore: The parts
 gallery:
   - src: recirculation-pump/open-water-heater.jpg
     alt: A Navien tankless water heater with its front cover removed, showing the

@@ -17,8 +17,16 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const { title, description, pubDate, updatedDate, tags, gallery, checklist } =
-  entry.data;
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  tags,
+  gallery,
+  galleryBefore,
+  checklist,
+} = entry.data;
 
 const card = checklist ? checklists[checklist] : undefined;
 if (checklist && !card) {
@@ -43,6 +51,42 @@ const slides = (gallery ?? [])
     (s): s is { src: ImageMetadata; alt: string; caption?: string } =>
       s !== null
   );
+
+// `galleryBefore` drops the slideshow in ahead of a heading instead of after
+// the whole post. That means splitting the rendered HTML rather than using
+// <Content />, so it only works for posts without inline Markdown images —
+// those are placeholders that only <Content /> can resolve.
+let proseBefore: string | null = null;
+let proseAfter = '';
+
+if (galleryBefore && slides.length > 0) {
+  const html = entry.rendered?.html ?? '';
+  const inlineImages = (
+    entry.rendered?.metadata as { imagePaths?: string[] } | undefined
+  )?.imagePaths;
+
+  if (inlineImages && inlineImages.length > 0) {
+    throw new Error(
+      `Note "${entry.id}" uses galleryBefore, which can't be combined with images placed inline in the Markdown body. Drop galleryBefore, or move those images into the gallery.`
+    );
+  }
+
+  const target = galleryBefore.trim().toLowerCase();
+  const heading = [
+    ...html.matchAll(/<h([1-6])\b[^>]*>([\s\S]*?)<\/h\1>/g),
+  ].find(
+    (m) => m[2].replace(/<[^>]*>/g, '').trim().toLowerCase() === target
+  );
+
+  if (!heading) {
+    throw new Error(
+      `Note "${entry.id}" sets galleryBefore: "${galleryBefore}", but has no heading with that text.`
+    );
+  }
+
+  proseBefore = html.slice(0, heading.index);
+  proseAfter = html.slice(heading.index);
+}
 ---
 
 <Base title={`${title} — Field Notes`} description={description}>
@@ -77,13 +121,22 @@ const slides = (gallery ?? [])
       }
     </header>
 
-    <div class="prose">
-      <Content />
-    </div>
-
     {
-      slides.length > 0 && (
-        <Slideshow images={slides} label={`${title} — photo gallery`} />
+      proseBefore !== null ? (
+        <>
+          <div class="prose" set:html={proseBefore} />
+          <Slideshow images={slides} label={`${title} — photo gallery`} />
+          <div class="prose prose-tail" set:html={proseAfter} />
+        </>
+      ) : (
+        <>
+          <div class="prose">
+            <Content />
+          </div>
+          {slides.length > 0 && (
+            <Slideshow images={slides} label={`${title} — photo gallery`} />
+          )}
+        </>
       )
     }
 
@@ -164,6 +217,12 @@ const slides = (gallery ?? [])
     font-size: var(--step--2);
     letter-spacing: 0.06em;
     color: var(--faded);
+  }
+
+  /* Picks up after the slideshow — the first heading's own top margin is
+     spacing enough, so don't stack the .prose margin on top of it. */
+  .prose-tail {
+    margin-top: 0;
   }
 
   .note-foot {

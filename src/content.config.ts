@@ -13,6 +13,9 @@ const notes = defineCollection({
     // Optional interactive field-card checklist, rendered after the post.
     // Value is a key in src/data/checklists.ts.
     checklist: z.string().optional(),
+    // Place the gallery just above the heading with this text instead of
+    // after the whole post.
+    galleryBefore: z.string().optional(),
     // Optional image slideshow. `src` is relative to src/assets/notes/.
     gallery: z
       .array(
