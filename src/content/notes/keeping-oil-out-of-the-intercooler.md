@@ -12,8 +12,8 @@ gallery:
     alt: The same engine bay with the intercooler removed, exposing the throttle body, the red intake manifold, and the tangle of hoses underneath.
     caption: 'Intercooler off. Everything I needed to reach lives under there'
   - src: iag-aos/aos-03.jpg
-    alt: A close-up looking into the end of a charge pipe, with a shallow pool of oil sitting in the bottom of it.
-    caption: 'Oil pooled in the bottom of the charge pipe — the whole reason for the job'
+    alt: A close-up looking into the end of the intercooler, with a shallow pool of oil sitting in the bottom of it.
+    caption: 'Oil pooled in the bottom of the intercooler — the whole reason for the job'
   - src: iag-aos/aos-04.jpg
     alt: The throttle body seen from the front with the intake piping disconnected, looking straight through the open bore.
     caption: 'Throttle body off, looking straight through the bore'
