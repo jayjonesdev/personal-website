@@ -92,10 +92,12 @@ magazines.
 
 ## The ledge
 
-On the back I built a ledge with a cutout for a recessed power strip —
-outlets and USB ports — so we can charge phones without draping a cord over
-the couch. It has a raised front lip to keep drinks from sliding off, and
-it's mounted to the studs with L brackets.
+On the back I built a 90½" ledge, 5" deep, with a cutout for a recessed
+power strip — outlets and USB ports — so we can charge phones without
+draping a cord over the couch. It has a raised front lip to keep drinks from
+sliding off, and it's mounted to the studs with L brackets. It sits just
+under the window trim, so it's hidden behind the couch back but easy to
+reach from the seat.
 
 I had initially wanted to drill out a spot for cup holders, 3" holes drilled
 1/4" deep, but I either purchased cheap forstner bits or I really needed a
@@ -103,16 +105,18 @@ drill press to achieve the look that I wanted. Maybe one day.
 
 ## The bin
 
-For the storage space, I created a bin with one side having a deeper bottom
-than the other, making it easier to grab phones, books, etc. out of the
-shallower side. Laptops and iPads go in the deeper side. The whole thing was
-glued together — no fasteners — and it hangs on a metal french cleat, so it
-lifts right off the wall for cleaning.
+For the storage space, I created a 44½" bin that holds everything upright
+in a single 1½" slot, with one side having a deeper bottom than the other,
+making it easier to grab phones, books, etc. out of the shallower side.
+Laptops and iPads go in the deeper side. There are holes in the floors so
+charging cables can come up from underneath. The whole thing was glued
+together — no fasteners — and it hangs on a metal french cleat, so it lifts
+right off the wall for cleaning.
 
 ## Finishing up
 
 Every exposed plywood edge got iron-on edge banding (a regular clothes iron
-works just fine), then everything got a coat of stain and water-based
-polyurethane. The couch now sits just a few inches off the walls, and we
-finally have a spot for drinks, chargers, and laptops. Enjoy the pictures
-below!
+works just fine), then everything got Golden Pecan stain and satin
+water-based polyurethane. The couch now sits 5½" off the back wall and just
+shy of 4" off the side wall, and we finally have a spot for drinks,
+chargers, and laptops. Enjoy the pictures below!
